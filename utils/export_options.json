@@ -1,0 +1,18 @@
+{
+    "name": "", 
+    "maya_namespace": "", 
+    "frameMode": 0, 
+    "endTimeSet": "", 
+    "step": 1, 
+    "mode": 2, 
+    "allOptions": "-writeColorSets -worldSpace -writeUVSets -writeVisibility -autoSubd -writeFaceSets -uvWrite -dataFormat ogawa", 
+    "abcPath": "C:\\Users\\Mack\\Desktop", 
+    "type": "", 
+    "selectGeo": [
+        "Camera", 
+        "Character", 
+        "Prop", 
+        "Scene"
+    ], 
+    "startTimeSet": ""
+}
