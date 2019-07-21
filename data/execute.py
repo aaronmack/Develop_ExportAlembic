@@ -5,14 +5,15 @@ cmds.loadPlugin('AbcExport.mll')
 # ################################## Sub2 ############################################### #
 name = ""
 maya_namespace = ""
+sel_file_name = "Test_02"
 allOptions = "-writeColorSets -worldSpace -writeUVSets -writeVisibility -autoSubd -writeFaceSets -uvWrite -dataFormat ogawa"
 endTimeSet = ""
 step = 1
-mode = 2
+mode = 0
 frameMode = 0
-abcPath = "C:\Users\Mack\Desktop"
-type = ""
-selectGeo = [u'Camera', u'Character', u'Prop', u'Scene']
+abcPath = "C:\\Users\\Mack\\Desktop\\abc"
+type = "Camera"
+selectGeo = [u'Camera']
 startTimeSet = ""
 
 # ################################## Sub3 ############################################### #
@@ -47,7 +48,7 @@ if mode == 0:
 
     for i in range(len(selectGeo)):
         m1_export_name = "%s%s" % (ref, selectGeo[i])
-        path = "%s/%s.abc" % (abcPath, selectGeo[i])
+        path = "%s/%s_%s.abc" % (abcPath, selectGeo[i], sel_file_name)
         command = commandline % (
         startTime, endTime, step_s, step, allOptions,
         m1_export_name, path)
@@ -59,7 +60,7 @@ if mode == 0:
 # export by name
 if mode == 1:
     if cmds.objExists(findName):
-        path = "%s/%s.abc" % (abcPath, name)
+        path = "%s/%s_%s.abc" % (abcPath, name, sel_file_name)
         startTime, endTime = getTime()
 
         command = commandline % (
@@ -74,7 +75,7 @@ if mode == 1:
 
 # export all
 if mode == 2:
-    path = "%s/%s.abc" % (abcPath, "All")
+    path = "%s/%s_%s.abc" % (abcPath, "All", sel_file_name)
     startTime, endTime = getTime()
     command = commandline_exportall % (
         startTime, endTime, step_s, step, allOptions, path)

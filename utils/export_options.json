@@ -1,18 +1,16 @@
 {
     "name": "", 
     "maya_namespace": "", 
+    "sel_file_name": "Test_02", 
     "frameMode": 0, 
     "endTimeSet": "", 
     "step": 1, 
-    "mode": 2, 
+    "mode": 0, 
     "allOptions": "-writeColorSets -worldSpace -writeUVSets -writeVisibility -autoSubd -writeFaceSets -uvWrite -dataFormat ogawa", 
-    "abcPath": "C:\\Users\\Mack\\Desktop", 
-    "type": "", 
+    "abcPath": "C:\\\\Users\\\\Mack\\\\Desktop\\\\abc", 
+    "type": "Camera", 
     "selectGeo": [
-        "Camera", 
-        "Character", 
-        "Prop", 
-        "Scene"
+        "Camera"
     ], 
     "startTimeSet": ""
 }

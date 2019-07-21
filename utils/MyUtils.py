@@ -5,6 +5,9 @@ import os
 import re
 import inspect
 import collections
+# import shlex
+import subprocess
+import time
 import JsonConf as mjc
 
 
@@ -69,6 +72,11 @@ def convert_slash_type_to_backslash(data):
         str_temp = data.replace('/', "\\")
         return str_temp
 
+def convert_slash_type_to_backslash_from_front(data):
+    if data.find('\\') != -1:
+        str_temp = data.replace('\\', "\\\\")
+        return str_temp
+
 
 def get_subLevel1_dirsAndFiles(root_path):
     convered_root_path=convert_slash_type(root_path)
@@ -79,11 +87,35 @@ def get_subLevel1_dirsAndFiles(root_path):
         return files, dirs
 
 
+def checkAbcPath(exportPath):
+    if not exportPath.endswith('abc'):
+        exportPath += os.sep + "abc"
+    if not os.path.exists(exportPath):
+        os.mkdir(exportPath)
+    else:
+        pass
+    DebugInfo(exportPath, "exportPath before", 0)
+    exportPath = convert_slash_type_to_backslash_from_front(exportPath)
+    DebugInfo(exportPath, "exportPath after", 0)
+    return exportPath
+
+
 def fibList(n):
     i = 0
     while(i < n):
         yield (i)
         i += 1
+
+
+def fun_call(*popenargs, **kwargs):
+    cal_obj = subprocess.Popen(*popenargs, shell=True, stdout=subprocess.PIPE, **kwargs)
+    output, unused_err = cal_obj.communicate()
+    retcode = cal_obj.poll()
+
+    if retcode:
+        cmd = kwargs.get("args")
+        raise subprocess.CalledProcessError(retcode, cmd)
+    return retcode
 
 
 def mergeFiles(files, merged_path):
@@ -138,15 +170,16 @@ def mayaExportAbc(thatAllNeed, curentSelect):
     GenWinBat.getNeed(data_path, mayaExcutePath, curentSelect)
 
     # Execute scripts
-    import subprocess
     import mypath
     # import win32api
 
     exe_cute = "\""+mypath.get_path()+os.sep+"data"+os.sep+"execute.bat"+"\""
+    sub_obj = fun_call(exe_cute)
 
-    sub_obj = subprocess.Popen(exe_cute, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    DebugInfo(exe_cute, "ExeCute Command", 1)
-    DebugInfo(sub_obj, "subprocess execute", 1)
+    DebugInfo(exe_cute, "ExeCute Command", 0)
+    DebugInfo(sub_obj, "subprocess execute", 0)
+    # par.event_notice()
+
     # except Exception, e:
     #     print("Error From Utils Export Alembic")
     #     print(e)

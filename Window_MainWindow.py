@@ -47,6 +47,7 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
         # Init status (Scene)
         self.readyExportOption = ['Scene']
         self.TIME_LIMIT = 100
+        self.ProCount = 0
         self.index = 0
         self.checkCamera = 0
         self.checkScene = 2
@@ -62,15 +63,20 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
 
     def setProgressBar(self):
         self.progressBar.setGeometry(0, 0, 300, 25)
+        self.progressBar.setValue(0)
 
     def onButtonClick(self):
-        if self.selectdata != None:
-            count = 0
-            while count < self.TIME_LIMIT:
-                count += 1
-                time.sleep(0.0125)
-                self.progressBar.setValue(count)
-        else:
+        self.progressBar.setValue(0)
+        self.ProCount = 0
+        try:
+            if self.selectdata != None:
+                while self.ProCount < self.TIME_LIMIT:
+                    self.ProCount += 1
+                    time.sleep(0.0125)
+                    self.progressBar.setValue(self.ProCount)
+            else:
+                pass
+        except AttributeError:
             pass
 
     def setConnect(self):
@@ -231,8 +237,9 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
 
     def getCurrentHoudiniProjectPath(self):
         try:
-            exportPath = ""
-            exportPath = os.path.dirname(hou.hipFile.path())
+            tem_exportPath = ""
+            tem_exportPath = os.path.dirname(hou.hipFile.path())
+            exportPath = MyUtils.checkAbcPath(tem_exportPath)
             DebugInfo(exportPath, "geted Path", 1)
             return exportPath
         except Exception:
@@ -242,7 +249,8 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
             import _winreg
             key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
                                   r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
-            exportPath = _winreg.QueryValueEx(key, "Desktop")[0]
+            tem_exportPath = _winreg.QueryValueEx(key, "Desktop")[0]
+            exportPath = MyUtils.checkAbcPath(tem_exportPath)
             DebugInfo(exportPath, 'Export Path', 0)
             return exportPath
 
@@ -454,7 +462,9 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
 
     def checkExportPath(self):
         exportPath = self.lineEdit_exportpath.text()
-        if len(exportPath) != 0:
+        if len(exportPath) != 0 and os.path.exists(exportPath):
+            exportPath = str(exportPath).strip().rstrip("\\")
+            exportPath = MyUtils.checkAbcPath(exportPath)
             return exportPath
         else:
             exportPath = self.getCurrentHoudiniProjectPath()
@@ -566,9 +576,12 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
                     expoNamespa += ":"
                 else:
                     expoNamespa = ''
+
             DebugInfo(expoNamespa, "export namespace", 0)
             DebugInfo(self.exportNamespace, "self. namespace", 0)
+            file_name, extension = os.path.splitext(str(self.curentSelect))
             self.thatAllNeed.update(allOptions=exportOptions_command,
+                                    sel_file_name=file_name,
                                     mode=self.index,
                                     abcPath=expoPa,
                                     step=optionsFrame[-1],
@@ -582,12 +595,28 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
                                     )
             DebugInfo(self.thatAllNeed, 'getAllOptionsFromMain', 0)
 
-            status = MyUtils.mayaExportAbc(self.thatAllNeed, seleDat)
+            # import threading
+            # t1 = threading.Thread(target=MyUtils.mayaExportAbc, args=(self.thatAllNeed, seleDat))
+            # t1.start()
+
+            import multiprocessing
+
+            p1 = multiprocessing.Process(target=MyUtils.mayaExportAbc,
+                                         args=(self.thatAllNeed, seleDat,))
+            # p1.daemon(True)
+            p1.start()
+            print(p1.is_alive())
+
+            # status = MyUtils.mayaExportAbc(self.thatAllNeed, seleDat, self)
         else:
             print("Error: Be not ready , No selected file")
             self.statusbar.showMessage("Error: Be not ready , No selected file")
         # except Exception, e:
         #     print(e)
+
+    def event_notice(self):
+        QtWidgets.QMessageBox.question(self, "Notice", "Ok!",
+                                       QtWidgets.QMessageBox.Yes)
 
     def closeEvent(self, event):
         reply = QtWidgets.QMessageBox.question(self, "Warning", "Do you really want to quit?",
