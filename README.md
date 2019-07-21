@@ -3,28 +3,44 @@
 [TOC]
 
 # Automaion
+## Export Alembic from Maya
 
-## Explain
+### Config
 
-目前已知问题：
+* Standalone
+  * Python2 + PySide2
 
-​	1.在导出文件时所选择的文件未作判断
+* In Maya
+  - 将install_maya.py文件到Maya窗口中，点击工具架图标
 
-​	2.不同分组的同一名称在导出时可能会覆盖
+* In Houdini
+  * 
 
-​	3.配置还不会被保存
+### Explain
 
-​	4.顶级菜单功能还未实现
+* 目前已知问题：
 
-未来将要更新的内容：
+  ​		1.在导出文件时所选择的文件未作判断
 
-​	1.场景优化（针对相机）
+  ​		2.不同分组的同一名称在导出时可能会覆盖
 
-​	2.增加可视化大纲
+  ​		3.配置还不会被保存
 
-​	2.导出时效率问题
+  ​		4.顶级菜单功能还未实现
 
-## Config
+  ​		5.测试在Maya与Nuke环境下可以正常导入， Houdini中失败
+
+  ​				- 原因猜测： 由于PYTHONHOME环境变量与Maya的PYTHONHOME环境变量冲突
+
+* 未来将要更新的内容：
+
+  ​		1.场景优化（针对相机）
+
+  ​		2.增加可视化大纲
+
+  ​		2.导出时效率问题
+
+### Use
 
 1. 点击![1563556326501](assets/1563556326501.png)选择要导出的Maya文件的目录或者直接粘贴要导出的目录
 
@@ -41,3 +57,24 @@
 * 全部
 
 5. 点击 Action 导出
+
+## Import Alembic from disk in Houdini
+
+### Config
+
+* 打开Houdini.env
+  * MYPATH = C:/Your/path
+  * HOUDINI_PATH = "$MYPATH;&"
+
+* 在Houdini中新建Tool
+
+	```python
+from automation.houdini import ImpoAbcFromDisk as iafd
+reload(iafd)
+iafd.run()
+	```
+
+### Use
+
+* 指定Path之后按下Enter键选择要导入的abc文件(支持多选)
+* 选择导出模式(Archive是带有节点树的，一般在导入相机选择这种模式)
