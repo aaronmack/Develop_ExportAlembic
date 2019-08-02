@@ -11,6 +11,21 @@ import time
 import JsonConf as mjc
 
 
+def judge_yes_or_no_houdini():
+    try:
+        # Use try import hou module to determine if the current operating environment is Houdini
+        import hou
+        return True
+    except Exception:
+        return False
+
+
+if judge_yes_or_no_houdini():
+    GLOBAL_HOUDINI = 1
+else:
+    GLOBAL_HOUDINI = 0
+
+
 def varname(p):
     for line in inspect.getframeinfo(inspect.currentframe().f_back)[3]:
         m = re.search(r'\bvarname\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)', line)
@@ -108,6 +123,9 @@ def fibList(n):
 
 
 def fun_call(*popenargs, **kwargs):
+    if GLOBAL_HOUDINI:
+        subprocess.Popen(*popenargs, shell=True)
+        return
     cal_obj = subprocess.Popen(*popenargs, shell=True, stdout=subprocess.PIPE, **kwargs)
     output, unused_err = cal_obj.communicate()
     retcode = cal_obj.poll()
@@ -153,7 +171,6 @@ def mayaExportAbc(thatAllNeed, curentSelect):
     # Convert the dictionary to a variable
     globals().update(json_config)
     DebugInfo(json_config, 'JsonConf', 0)
-    mayaExcutePath = MAYA_BATCH_PATH
 
     # Set Ready Generated config json
     UtilsJS_Options.set(thatAllNeed)
@@ -167,15 +184,20 @@ def mayaExportAbc(thatAllNeed, curentSelect):
 
     # Generated windows execute .bat file
     import GenWinBat
-    GenWinBat.getNeed(data_path, mayaExcutePath, curentSelect)
+    GenWinBat.getNeed(data_path, MAYA_BATCH_PATH, curentSelect)
 
     # Execute scripts
     import mypath
     # import win32api
 
     exe_cute = "\""+mypath.get_path()+os.sep+"data"+os.sep+"execute.bat"+"\""
+    if GLOBAL_HOUDINI:
+        os.environ['PYTHONHOME'] = MAYA_PYTHON_HOME
+    else:
+        pass
     sub_obj = fun_call(exe_cute)
 
+    DebugInfo(MAYA_PYTHON_HOME, "MAYA_PYTHON_HOME", 0)
     DebugInfo(exe_cute, "ExeCute Command", 0)
     DebugInfo(sub_obj, "subprocess execute", 0)
     # par.event_notice()
