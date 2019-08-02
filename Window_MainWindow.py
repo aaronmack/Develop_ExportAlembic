@@ -598,14 +598,16 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
             # import threading
             # t1 = threading.Thread(target=MyUtils.mayaExportAbc, args=(self.thatAllNeed, seleDat))
             # t1.start()
+            if MyUtils.judge_yes_or_no_houdini():
+                MyUtils.mayaExportAbc(self.thatAllNeed, seleDat)
 
-            import multiprocessing
+            else:
+                import multiprocessing
 
-            p1 = multiprocessing.Process(target=MyUtils.mayaExportAbc,
-                                         args=(self.thatAllNeed, seleDat,))
-            # p1.daemon(True)
-            p1.start()
-            print(p1.is_alive())
+                p1 = multiprocessing.Process(target=MyUtils.mayaExportAbc,
+                                             args=(self.thatAllNeed, seleDat,))
+                # p1.daemon(True)
+                p1.start()
 
             # status = MyUtils.mayaExportAbc(self.thatAllNeed, seleDat, self)
         else:
