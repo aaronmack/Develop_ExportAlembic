@@ -1,8 +1,25 @@
 
 
-[TOC]
+[Automation](# Automation)
+[Export Alembic from Maya][# Export Alembic from Maya]
+[Import Alembic from disk in Houdini][# Import Alembic from disk in Houdini]
 
-# Automaion
+# Automation
+
+### **Status**
+
+| System  | Houdini                                                      | Maya                                                         | Nuke                                                         |
+| :-----: | :----------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Windows | <img src=".\assets\build_succeed.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> |
+|  Linux  | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> |
+|   Mac   | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> |
+
+### **Version**
+
+* v0.1.0   - Beta
+* v0.1.1  
+  * 修复了在Houdini中使用此工具不能成功从Maya中导出Alembic的问题
+
 ## Export Alembic from Maya
 
 ### Config
@@ -28,9 +45,9 @@
 
   ​		4.顶级菜单功能还未实现
 
-  ​		5.测试在Maya与Nuke环境下可以正常导入， Houdini中失败
+  ​		~~*<u>5.测试在Maya与Nuke环境下可以正常导入， Houdini中失败</u>*~~
 
-  ​				- 原因猜测： 由于PYTHONHOME环境变量与Maya的PYTHONHOME环境变量冲突
+  ​				~~*<u>- 原因猜测： 由于PYTHONHOME环境变量与Maya的PYTHONHOME环境变量冲突</u>*~~
 
 * 未来将要更新的内容：
 
@@ -78,3 +95,5 @@ iafd.run()
 
 * 指定Path之后按下Enter键选择要导入的abc文件(支持多选)
 * 选择导出模式(Archive是带有节点树的，一般在导入相机选择这种模式)
+
+[# Import Alembic from disk in Houdini]: 
