@@ -1,16 +1,19 @@
 {
     "name": "", 
     "maya_namespace": "", 
-    "sel_file_name": "XHQS_EP001_SC009_0037_ANI_V001", 
+    "sel_file_name": "Test_02", 
     "allOptions": "-writeColorSets -worldSpace -writeUVSets -writeVisibility -autoSubd -writeFaceSets -uvWrite -dataFormat ogawa", 
     "endTimeSet": "", 
     "step": 1, 
-    "mode": 0, 
+    "mode": 2, 
     "frameMode": 0, 
     "abcPath": "C:\\\\Users\\\\Drock_Li\\\\Desktop\\\\abc", 
-    "type": "SHOT_CAMERA", 
+    "type": "", 
     "selectGeo": [
-        "SHOT_CAMERA"
+        "Camera", 
+        "Character", 
+        "Prop", 
+        "Scene"
     ], 
     "startTimeSet": ""
 }

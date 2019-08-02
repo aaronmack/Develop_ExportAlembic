@@ -6,7 +6,7 @@ set PATH=%PATH%;%PYTHONPATH%
 
 set CURPATH=%cd%
 
-set File="H:/HoudiniProject/Project/Test/XHQS_EP001_SC009_0037_ANI_V001.mb"
+set File="C:/Google Drive/Dev/Houdini/python2.7libs/other/ExportTest/Test_02.mb"
 
 "C:/Program Files/Autodesk/Maya2018/bin/mayabatch.exe" -file %File%  -command "python(\"import execute\")"
 
