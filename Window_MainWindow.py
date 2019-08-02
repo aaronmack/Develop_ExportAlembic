@@ -598,7 +598,8 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
             # import threading
             # t1 = threading.Thread(target=MyUtils.mayaExportAbc, args=(self.thatAllNeed, seleDat))
             # t1.start()
-            if MyUtils.judge_yes_or_no_houdini():
+
+            if MyUtils.GLOBAL_HOUDINI:
                 MyUtils.mayaExportAbc(self.thatAllNeed, seleDat)
 
             else:
