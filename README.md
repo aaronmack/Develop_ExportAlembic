@@ -1,4 +1,4 @@
-
+[TOC]
 
 [Automation](# Automation)
 [Export Alembic from Maya][# Export Alembic from Maya]
@@ -14,11 +14,16 @@
 |  Linux  | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> |
 |   Mac   | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> | <img src=".\assets\build_none_blown.jpg" alt="Girl in a jacket" style="width:100px;height:20px;"> |
 
-### **Version**
+### **Current Version**
 
 * v0.1.0   - Beta
 * v0.1.1  
+  
   * 修复了在Houdini中使用此工具不能成功从Maya中导出Alembic的问题
+* v0.1.2
+  * 修复了一个bug，当第一次启动**Import Alembic**工具的时候，不能成功从磁盘导入Abc文件
+  * 修改了Camera摄像机的命名, The old： Camera_arc1.abc --> **Camera**  The new: Camera_arc1.abc-->**Camera_arc1**
+
 
 ## Export Alembic from Maya
 
