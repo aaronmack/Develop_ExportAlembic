@@ -35,6 +35,8 @@ def create_alembic_single(paths):
 
 
 def create_alembic_archive(paths):
+    node = hou.node("/obj")
+    hou.cd("/obj")
     pos_x = 0
     pos_y = 5
     for key, value in paths.items():
