@@ -45,12 +45,11 @@ class HoudiniWidget_AlemImport(QtWidgets.QWidget, ImAl.Ui_Widget_ImportAlembic):
             alem_sin_files.append(i.data())
         # set dictionaries
         for i in range(len(alem_sin_files)):
-            alemsinfiles_dirc[str(alem_sin_files[i]).split("_")[0]] = \
+            alemsinfiles_dirc[str(alem_sin_files[i]).split(".")[0]] = \
                 self.root_path+os.sep+alem_sin_files[i]
 
         HoudiniWidget_AlemImport.judgeSelected(alem_sin_files)
         reload(ho)
-        # sele_alem_sin_files = [self.root_path+os.sep+alem_sin_files[i] for i in range(len(alem_sin_files))]
         ho.create_alembic_single(alemsinfiles_dirc)
 
     def export_alembic_archive(self):
@@ -61,7 +60,7 @@ class HoudiniWidget_AlemImport(QtWidgets.QWidget, ImAl.Ui_Widget_ImportAlembic):
             alem_arc_files.append(i.data())
 
         for i in range(len(alem_arc_files)):
-            alemarcfiles_dirc[str(alem_arc_files[i]).split("_")[0]] = \
+            alemarcfiles_dirc[str(alem_arc_files[i]).split(".")[0]] = \
                 self.root_path+os.sep+alem_arc_files[i]
 
         HoudiniWidget_AlemImport.judgeSelected(alem_arc_files)
