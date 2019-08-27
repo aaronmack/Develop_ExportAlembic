@@ -1,3 +1,19 @@
+/data/re_sub2.py
+
 .idea
 
 *.pyc
+	
+*.ui
+
+/data/re_sub2.py
+
+/data/execute.bat
+
+/data/execute.py
+
+/utils/export_options.json
+
+
+
+# Dynamically generated files
