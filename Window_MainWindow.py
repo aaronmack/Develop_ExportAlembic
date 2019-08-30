@@ -16,12 +16,12 @@ import os
 import sys
 import re
 import time
-import Dialog_ExportAlembic as DialogAlembicOptions
+import Dialog_ExportAlembicOptions as DialogAlembicOptions
 from myException import *
 from switch import *
 from utils.MyUtils import DebugInfo
 from utils import MyUtils
-from ui import mainwindow as mainwindow
+from ui import mainwindow_v03 as mainwindow
 from PySide2.QtWidgets import QMainWindow, QFileDialog
 from PySide2 import QtCore, QtWidgets, QtGui
 
@@ -86,6 +86,7 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
         self.pushButton_refresh.clicked.connect(self.StructureListView)
         self.pushButton_left.clicked.connect(self.SwitchToTopLevel)
         self.pushButton_right.clicked.connect(self.SwitchNextLevel)
+        self.pushButton_setting.clicked.connect(self.getAlembicOptionsDialogStatus)
 
         self.comboBox_export_mode.currentIndexChanged.connect(self.setExportMode)
         self.comboBox_filterlist.currentIndexChanged.connect(self.StructureListView)
@@ -99,7 +100,7 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
         self.lineEdit_exportpath.textEdited.connect(self.exportPathEdit)
         self.lineEdit_namespace.textEdited.connect(self.exportNameSpaceEdit)
 
-        self.actionSetting.triggered.connect(self.getAlembicOptionsDialogStatus)
+        # self.actionSetting.triggered.connect(self.getAlembicOptionsDialogStatus)
 
         self.listView.doubleClicked.connect(self.SwitchNextLevel)
         self.listView.clicked.connect(self.getListViewClicked)
@@ -442,7 +443,7 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
 
     def getListViewClicked(self, index):
         curRootPath = self.lineEdit_filepath.text()
-
+        curFileFilter = ['.ma', '.mb']
         # final get (All path '/')
         fixCurRootPath = self.fixPath(curRootPath)
 
@@ -453,9 +454,14 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
         else:
             selectdata = fixCurRootPath + '/' + self.curentSelect
 
+        curFileExtension = MyUtils.file_extension(selectdata)
+
         if not os.path.isdir(selectdata):
-            self.selectdata = selectdata
-            self.statusbar.showMessage("Current select is: %s" % self.selectdata)
+            if not curFileExtension in curFileFilter:
+                self.selectdata = None
+            else:
+                self.selectdata = selectdata
+                self.statusbar.showMessage("Current select is: %s" % self.selectdata)
         else:
             self.selectdata = None
             self.statusbar.showMessage("Select Error: Please select a ready to export file.")
