@@ -7,10 +7,15 @@ try:
     import hou
 except ImportError:
     pass
-import import_alembic as ImAl
+sys.path.append('../ui')
+try:
+    from ui import import_alembic as ImAl
+except Exception:
+    # If have imported automation module
+    from automation.ui import import_alembic as ImAl
 import ViewAlembicListModel
 import houdini_core as ho
-from PySide2 import QtWidgets, QtCore, QtGui
+from PySide2 import QtWidgets, QtCore
 
 
 class HoudiniWidget_AlemImport(QtWidgets.QWidget, ImAl.Ui_Widget_ImportAlembic):
@@ -80,7 +85,9 @@ class HoudiniWidget_AlemImport(QtWidgets.QWidget, ImAl.Ui_Widget_ImportAlembic):
                 try:
                     path = os.path.dirname(hou.hipFile.path())
                 except NameError:
-                    raise NameError("Can not get path")
+                    print( "NameError: Can not get hipFile path")
+                    path = os.path.dirname('.')
+
             else:
                 if not os.path.exists(path):
                     raise NameError("The path Error")
@@ -101,9 +108,10 @@ class HoudiniWidget_AlemImport(QtWidgets.QWidget, ImAl.Ui_Widget_ImportAlembic):
             self.setListWidget()
 
 
-def run():
-    win = HoudiniWidget_AlemImport()
-    win.show()
+def run(object):
+    win = HoudiniWidget_AlemImport(object)
+    # win.show()
+    return win
 
 
 if __name__ == '__main__':

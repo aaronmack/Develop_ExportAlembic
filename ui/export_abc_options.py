@@ -116,7 +116,7 @@ class Ui_Dialog_exportalembicoptions(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.checkBox_visibility.sizePolicy().hasHeightForWidth())
         self.checkBox_visibility.setSizePolicy(sizePolicy)
-        self.checkBox_visibility.setChecked(True)
+        self.checkBox_visibility.setChecked(False)
         self.checkBox_visibility.setObjectName("checkBox_visibility")
         self.verticalLayout.addWidget(self.checkBox_visibility)
         self.checkBox_creases = QtWidgets.QCheckBox(self.groupBox_advancedoptions)

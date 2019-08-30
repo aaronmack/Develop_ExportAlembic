@@ -209,5 +209,13 @@ def mayaExportAbc(thatAllNeed, curentSelect):
     return True
 
 
+def getWinDekstopFolder():
+    import _winreg
+    key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
+                          r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
+    win_desktop_directory_path = _winreg.QueryValueEx(key, "Desktop")[0]
+    return win_desktop_directory_path
+
+
 if __name__ == '__main__':
     pass

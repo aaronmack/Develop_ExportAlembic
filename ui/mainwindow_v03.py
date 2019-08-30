@@ -426,3 +426,4 @@ class Ui_MainWindow(object):
 
 # from QtWebEngineWidgets.QWebEngineView import QWebEngineView
 import resource_rc
+

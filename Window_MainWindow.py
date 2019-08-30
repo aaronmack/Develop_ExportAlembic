@@ -17,6 +17,7 @@ import sys
 import re
 import time
 import Dialog_ExportAlembicOptions as DialogAlembicOptions
+from houdini import ImpoAbcFromDisk as iafd
 from myException import *
 from switch import *
 from utils.MyUtils import DebugInfo
@@ -31,7 +32,8 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
         super(AutomationStandard, self).__init__()
         self.setupUi(self)
         self.countTest = 0
-        self.dialog = DialogAlembicOptions.run(self)
+        self.alemOptionsDialog = DialogAlembicOptions.run(self)
+        self.importAlemDialog = iafd.run(self)
 
         self.comboBox_filterlist.setStyleSheet("font: 9pt \"Alef\";")
 
@@ -87,6 +89,7 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
         self.pushButton_left.clicked.connect(self.SwitchToTopLevel)
         self.pushButton_right.clicked.connect(self.SwitchNextLevel)
         self.pushButton_setting.clicked.connect(self.getAlembicOptionsDialogStatus)
+        self.pushButton_ipAbcFromDisk.clicked.connect(self.DialogImportAlembicFromDiskToHoudini)
 
         self.comboBox_export_mode.currentIndexChanged.connect(self.setExportMode)
         self.comboBox_filterlist.currentIndexChanged.connect(self.StructureListView)
@@ -107,6 +110,13 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
 
         # or you can use lambda
         # self.checkBox3.stateChanged.connect(lambda: self.btnstate(self.checkBox3))
+
+    # private slots
+    def DialogImportAlembicFromDiskToHoudini(self):
+        from houdini import ImpoAbcFromDisk as iafd
+        reload(iafd)
+        if self.importAlemDialog != None:
+            self.importAlemDialog.show()
 
     # private slots
     def onStateChange(self, state):
@@ -149,23 +159,23 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
     # private slots
     def getAlembicOptionsDialogStatus(self):
         self.countTest += 1
-        if self.dialog == None:
+        if self.alemOptionsDialog == None:
             self.AlembicOptionsDialog()
         else:
             self.AlembicOptionsDialog(mode=1)
-        self.dialog.someSignal.connect(self.dialogObjectModifly)
+        self.alemOptionsDialog.someSignal.connect(self.dialogObjectModifly)
 
     # private slots
     def dialogObjectModifly(self):
-        #self.dialog = None
+        #self.alemOptionsDialog = None
         pass
 
     # private slots
     def AlembicOptionsDialog(self, mode=0):
         if mode == 0:
-            self.dialog.showDialog()
+            self.alemOptionsDialog.showDialog()
         if mode == 1:
-            self.dialog.show()
+            self.alemOptionsDialog.show()
 
     # private slots
     def exportNameEdit(self, data):
@@ -247,12 +257,9 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
 
             print("Warning: Can't get the houdini project path, try to get Desktop folder")
 
-            import _winreg
-            key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
-                                  r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
-            tem_exportPath = _winreg.QueryValueEx(key, "Desktop")[0]
             exportPath = MyUtils.checkAbcPath(tem_exportPath)
             DebugInfo(exportPath, 'Export Path', 0)
+            MyUtils.getWinDekstopFolder()
             return exportPath
 
     def getOptionStatus(self):
@@ -551,13 +558,13 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
             expoNamespa = self.exportNamespace.encode("utf-8") if (self.exportNamespace != None) else self.exportNamespace
             expoPa = self.exportPath.encode("utf-8") if (self.exportPath != None) else self.exportPath
 
-            optionsFrame, options = self.dialog.getAllOptions()
+            optionsFrame, options = self.alemOptionsDialog.getAllOptions()
 
             # [0, '', '', 1]
             exportOptions_command = ' '.join(options)
 
             # update all file name options
-            filenameoptions = self.dialog.getFileNameConfig()
+            filenameoptions = self.alemOptionsDialog.getFileNameConfig()
 
             export_options = []
             # ['Camera', 'Character', 'Prop', 'Scene']
@@ -632,7 +639,7 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
                                                QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
         if reply == QtWidgets.QMessageBox.Yes:
             try:
-                self.dialog.close()
+                self.alemOptionsDialog.close()
             except Exception, e:
                 print(e)
             event.accept()
