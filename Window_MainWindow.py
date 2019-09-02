@@ -28,7 +28,7 @@ from PySide2 import QtCore, QtWidgets, QtGui
 
 
 class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, parent=None):
         super(AutomationStandard, self).__init__()
         self.setupUi(self)
         self.countTest = 0
@@ -90,21 +90,16 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
         self.pushButton_right.clicked.connect(self.SwitchNextLevel)
         self.pushButton_setting.clicked.connect(self.getAlembicOptionsDialogStatus)
         self.pushButton_ipAbcFromDisk.clicked.connect(self.DialogImportAlembicFromDiskToHoudini)
-
         self.comboBox_export_mode.currentIndexChanged.connect(self.setExportMode)
         self.comboBox_filterlist.currentIndexChanged.connect(self.StructureListView)
-
         self.checkBox_camera.stateChanged.connect(self.onStateChange)
         self.checkBox_chracter.stateChanged.connect(self.onStateChange)
         self.checkBox_prop.stateChanged.connect(self.onStateChange)
         self.checkBox_scene.stateChanged.connect(self.onStateChange)
-
         self.lineEdit_exportname.textEdited.connect(self.exportNameEdit)
         self.lineEdit_exportpath.textEdited.connect(self.exportPathEdit)
         self.lineEdit_namespace.textEdited.connect(self.exportNameSpaceEdit)
-
         # self.actionSetting.triggered.connect(self.getAlembicOptionsDialogStatus)
-
         self.listView.doubleClicked.connect(self.SwitchNextLevel)
         self.listView.clicked.connect(self.getListViewClicked)
 
@@ -640,6 +635,7 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
         if reply == QtWidgets.QMessageBox.Yes:
             try:
                 self.alemOptionsDialog.close()
+                self.importAlemDialog.close()
             except Exception, e:
                 print(e)
             event.accept()
@@ -659,7 +655,7 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
 
 def run():
     win = AutomationStandard()
-    win.show()
+    return win
 
 
 if __name__ == '__main__':
