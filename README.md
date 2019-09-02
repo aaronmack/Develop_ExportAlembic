@@ -23,6 +23,15 @@
 * v0.1.2
   * 修复了一个bug，当第一次启动**Import Alembic**工具的时候，不能成功从磁盘导入Abc文件
   * 修改了Camera摄像机的命名, The old： Camera_arc1.abc --> **Camera**  The new: Camera_arc1.abc-->**Camera_arc1**
+* v0.2.1
+  * 整合ImportAlembic子工具到主页面板中，现在是一个按钮**ImportAlembic**
+  * 修复了一个bug (导出时不检查所选择的文件类型，目前导出过滤文件**[.ma, .mb]**)
+  * 移动**Dock**上的导出按钮与工具架上的设置按钮到主页面板底部
+  * ImportAlembic子工具更新
+    1. 增加返回上一层级按钮
+    2. 增加鼠标双击事件(进入所选择的目录)
+    3. 优化路径，(1)增加显示到LineEdit中. (2)当单击**Search**按钮时并且Path为空的时候默认显示Desktop目录.
+    4. 修复了一个bug，(显示框重复显示)
 
 
 ## Export Alembic from Maya
@@ -42,7 +51,7 @@
 
 * 目前已知问题：
 
-  ​		1.在导出文件时所选择的文件未作判断
+  ​		~~1.在导出文件时所选择的文件未作判断~~	【in v0.2.1 fixed】
 
   ​		2.不同分组的同一名称在导出时可能会覆盖
 
@@ -50,9 +59,7 @@
 
   ​		4.顶级菜单功能还未实现
 
-  ​		~~*<u>5.测试在Maya与Nuke环境下可以正常导入， Houdini中失败</u>*~~
-
-  ​				~~*<u>- 原因猜测： 由于PYTHONHOME环境变量与Maya的PYTHONHOME环境变量冲突</u>*~~
+  ​		~~*5.测试在Maya与Nuke环境下可以正常导入， Houdini中失败*~~*-由于PYTHONHOME环境变量与Maya的PYTHONHOME环境变量冲突*~~	【【in v0.1.1 fixed】】
 
 * 未来将要更新的内容：
 
