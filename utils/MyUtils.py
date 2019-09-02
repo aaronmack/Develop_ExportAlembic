@@ -11,6 +11,10 @@ import time
 import JsonConf as mjc
 
 
+class PathIrregularError(Exception):
+    pass
+
+
 def judge_yes_or_no_houdini():
     try:
         # Use try import hou module to determine if the current operating environment is Houdini
@@ -91,6 +95,14 @@ def convert_slash_type_to_backslash_from_front(data):
     if data.find('\\') != -1:
         str_temp = data.replace('\\', "\\\\")
         return str_temp
+
+
+def get_previous_level_path(path):
+    if os.path.exists(path):
+        previous_path = os.path.abspath(os.path.join(path, os.pardir))
+    else:
+        raise NameError("The path is inexistence")
+    return previous_path
 
 
 def get_subLevel1_dirsAndFiles(root_path):
@@ -209,7 +221,7 @@ def mayaExportAbc(thatAllNeed, curentSelect):
     return True
 
 
-def getWinDekstopFolder():
+def get_windows_dekstopFolder():
     import _winreg
     key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER,
                           r'Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders')
