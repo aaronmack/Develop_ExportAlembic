@@ -1,14 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import os
 import sys
-from ui import export_abc_options as Dialog
+from ui import export_abc_options
 from PySide2 import QtCore
 from PySide2.QtCore import QObject, Signal
 from PySide2.QtWidgets import QDialog, QApplication
 
 
-class ExportAbcOptionsDialog(QDialog, Dialog.Ui_Dialog_exportalembicoptions):
+class ExportAbcOptionsDialog(QDialog, export_abc_options.Ui_Dialog_exportalembicoptions):
     class commu(QObject):
         someSignal = Signal()
 
