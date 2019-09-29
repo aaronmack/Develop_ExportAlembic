@@ -3,24 +3,26 @@
 
 import os
 import sys
+import importlib
 try:
     import hou
 except ImportError:
     pass
 try:
-    from ui import import_alembic_v02 as ImAl
+    from ui import import_alembic_v02
     from utils import MyUtils
 except Exception:
     # If have imported automation module
-    from automation.ui import import_alembic_v02 as ImAl
-    from automation.utils import MyUtils
+    modulename = os.path.realpath(os.path.dirname(__file__)).split(os.sep)[-2]
+    import_alembic_v02 = importlib.import_module("%s.ui.import_alembic_v02" % (modulename))
+    MyUtils = importlib.import_module("%s.utils" % (modulename))
 import ViewAlembicListModel
 import houdini_core as ho
 
 from PySide2 import QtWidgets, QtCore
 
 
-class HoudiniWidget_AlemImport(QtWidgets.QWidget, ImAl.Ui_Widget_ImportAlembic):
+class HoudiniWidget_AlemImport(QtWidgets.QWidget, import_alembic_v02.Ui_Widget_ImportAlembic):
     def __init__(self, parent=None):
         super(HoudiniWidget_AlemImport, self).__init__()
         self.setupUi(self)
