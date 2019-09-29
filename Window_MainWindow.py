@@ -18,6 +18,7 @@ import re
 import time
 import Dialog_ExportAlembicOptions as DialogAlembicOptions
 from houdini import ImpoAbcFromDisk as iafd
+reload(iafd)
 from myException import *
 from switch import *
 from utils.MyUtils import DebugInfo
@@ -636,6 +637,8 @@ class AutomationStandard(QMainWindow, mainwindow.Ui_MainWindow):
             try:
                 self.alemOptionsDialog.close()
                 self.importAlemDialog.close()
+                import status
+                status.ExportAlembicFromMaya = None
             except Exception, e:
                 print(e)
             event.accept()
